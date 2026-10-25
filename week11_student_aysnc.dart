@@ -4,14 +4,16 @@ mixin Loggable {
   }
 }
 
+// abstract base class from week 9 
 abstract class Student {
   final String studentID;
   final String name;
   final String program;
-
+  // private field for encapsulation
   final Map<String, double> _grades = {};
 
   Student(this.studentID, this.name, this.program);
+  // getters
   double get passingGrade;
   String get level;
 
@@ -42,7 +44,7 @@ abstract class Student {
     }
     return sum / _grades.length;
   }
-
+  // abstract getters for different subclass results
   String get standing =>
       computeAvg() >= passingGrade ? 'Passed' : 'Needs improvement';
 
@@ -60,7 +62,7 @@ abstract class Student {
         'Average: ${computeAvg().toStringAsFixed(2)}';
     }
 }
-
+// class 1
 class UndergraduateStudent extends Student {
   final int yearLvl;
   
@@ -77,7 +79,7 @@ class UndergraduateStudent extends Student {
   @override
   String get level => 'Undergraduate (Year $yearLvl)';
 }
-
+// class 2
 class GraduateStudent extends Student {
   final String thesisTitle;
 
@@ -94,7 +96,7 @@ class GraduateStudent extends Student {
     print(' Thesis: $thesisTitle');
   }
 }
-
+// class outside the chain using mixin
 class Instructor with Loggable {
   final String name;
   final String dept;
@@ -141,14 +143,16 @@ Future <void> main() async {
   prof.submitGrade(s1, 'Integrative Programming & Technologies', 89);
   prof.submitGrade(s2, 'Mobile Development', 80);
   prof.submitGrade(s2, 'Research Methods', 84);
-  s1.addGrade('Ethics', 150);
+  s1.addGrade('Ethics', 150); // validation for rejected grade
 
+  // application for polymorphism
   List<Student> students = [s1, s2];
   print('\n==== STUDENT REPORT ====');
   for (var s in students) {
     s.showReport();
   }
 
+  // async demo
   print ('\n==== ASYNC: SAVING RECORDS ====');
   
   print ('Starting save for ${s1.name}...');
